@@ -28,10 +28,6 @@ sum_of_products = list(map(sum, k))
 a = sum_of_products[0]%m
 for i in sum_of_products[1:]:
     if i%m>a:
-        a = i
+        a = i%m
 
-print(j)
-print(square_of_list)
-print(sum_of_products[0])
-print(m)
 print(a)

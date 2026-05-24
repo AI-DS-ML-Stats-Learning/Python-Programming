@@ -190,7 +190,8 @@ itertools -> It is a collection of tools that allows us to work with iterators i
 
 collections
 
-functools
+functools -> modules in python that enables functional programming in python easier to implement - "higher-order functions—functions that act on, modify, or return other functions."
+    reduce(func, iterable, initializer = None) - is used to apply a function (func) of two arguments cumulatively to the items of an iterable (like a list) from left to right, reducing the sequence to a single value.
 
 pathlib
 
