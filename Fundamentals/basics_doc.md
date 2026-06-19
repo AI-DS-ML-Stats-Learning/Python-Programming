@@ -1,3 +1,6 @@
+input() - Take user input
+raw_input() - Take user input and consider the raw and original input and do not consider any character as special character/keyword
+
 Data Types
 
 String - 
@@ -5,6 +8,7 @@ String -
 2. str.capitalize() - only capiatlizes the 1st letter of the sentence
 3. str.title() - capitalizes the 1st letters of all the words in the input
 4. str.split() - splits the sentence into words based on the delimiter (default = " ")
+5. .join -> this is used to join multiple strings together. if we use "\n".join() then all the elements will be joined by a new line.
 
 strings are immutable
 
@@ -47,11 +51,15 @@ dict {a:b, c:d}
     dict.pop() -> returns the last inserted value for a key and removed the key from the dict
 
 exceptions - syntax error, error handling [ValueError, NameError, AssertionError]
-    try
-    except
-    else
-    pass
-    raise
+    try - a try block should be either accompanied by except or finally or both
+    except - catches an error/exception. It cannot act alone, it has to be paired with try block.
+    else - it can be paired with try and except block. It works when no exception occurs.
+    pass - used within an except block when we want to ignore the error and do nothing about it. But pass cannot be used on their own (without try block)
+    raise - does not needs try block to raise but if only raise is used (alone), the program still crashes (if case appears) but along with all the tracebacks and error type, our custom message inside the raise is also displayed.
+    assert - assert is for debugging and raises AssertionError when a condition fails.
+    finally -> always runs whether error occurs or not. Is mostly used to handle programs from getting crashed, used within try block at the end after all the excepts. Even if except is not there, finally can be used with try but cannot be used on their own (without try block)
+        common real-world usecases -> close an open file
+        
 
 library
 modules
@@ -79,7 +87,7 @@ regex -> re library for checking regular expressions or patterns
 + -> 1 or more reps
 ? -> 0 or 1 reps
 {m} -> m reps
-{m,n} -> between m and n reps
+{m,n} -> between m and n reps. IF we just keep n empty like {2,}, this would mean capture the occurence of the characters for 2 or more times
 ^ -> start of the string
 $ -> end of the string
 [] -> set of characters
@@ -91,12 +99,37 @@ $ -> end of the string
 \s -> whitespace characters
 \S -> not a whitespace character
 A|B -> either A or B
+.* -> any/no characters or values
 (...) -> a group
+re.matches() ->
+    group(a,b,.) -> returns the group values. if m = re.matches(expr, input()) then m.group(1,2,..) will return the subgroup/s that are identified as parentheses with subgroup numbers as input parameter (m.group(1) -> returns the 1st subgroup)
+    groups() -> will return the tuple of all the subgroups that are identified as parentheses
+    groupdict() -> A groupdict() expression returns a dictionary containing all the named subgroups of the match, keyed by the subgroup name.
+re.findall() -> Finds all non‑overlapping matches of the pattern in the entire string. This is used to find consecutive occurrence of elements.
+    m = re.findall(r'([a-zA-Z0-9])\1+',s) -->
+        ([A-Za-z0-9]) → Captures a single alphanumeric character (letter or digit).
+        \1 → Refers back to whatever was captured in group 1.
+        \1+ → Means “the same character repeated one or more times.
+(?= ... ) (Lookahead assertion) -> This is a special tool. Normally, when regex matches a character, it "consumes" it, meaning the engine moves past it and cannot match it again. A lookahead checks if the pattern matches ahead of the current position, but does not consume the characters. This allows the regex engine to find overlapping matches (e.g., if two vowel groups are very close to each other). - 
+    How it is used? --     pattern  = re.findall(r'(?=[^aeiouAEIOU]([aeiouAEIOU]{2,})[^aeiouAEIOU])',s)
+    Basically, it does not lets the searcher to skip any matched character and we are looking ahead to see if this exists or not.
+m.start() and m.end() -> fetches the index of the matched string in (m = re.search(expression, string))
+     .start() and .end() do not work with re.findall() -> This is because re.findall() only returns raw strings (or tuples of strings), and Python strings don't know where they came from or what their indices were in the original text.
+re.finditer() -> It finds and yields matches one-by-one as you loop through them, using almost zero extra memory. .group()/.groups() can be leveraged here.
+re.fullmatch() -> matches the entire pattern with the input string
+re.sub(pattern, lambda/to replace the matched value with something, string) -> re.sub basically is used to find the matches and then replace/modify the values and substitute in the original string
 (?:..) -> non-capturing version [basically ignore a parenthetical element as a part of group when extracted via matches.group() where matches stores the re.search() results]
 re.IGNORECASE
 re.MULTILINE
 re.DOTALL
 := [The Walrus Operator] -> this assigns from right to left and also does a boolean check (for true or false)
+re.split -> this works exatly like str.split(). The only difference here is that it splits the string based on a regex expression
+
+IMP on REGEX - 
+re.search when finds the 1st match it stops
+re.findall finds all the matches and it returns a list, so .group() can't be used with it
+
+
 
 tuple -> () [immutable [cannot change the values] ]
 
@@ -195,3 +228,4 @@ functools -> modules in python that enables functional programming in python eas
 
 pathlib
 
+HTML Parser -> Event-Driven Parsing
