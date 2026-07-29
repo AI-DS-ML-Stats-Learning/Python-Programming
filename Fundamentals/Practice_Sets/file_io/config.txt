@@ -1,0 +1,5 @@
+# Database settings
+host = localhost
+port = 3306
+# Security settings
+ssl = True

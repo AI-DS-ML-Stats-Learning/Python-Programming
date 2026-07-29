@@ -9,6 +9,7 @@ String -
 3. str.title() - capitalizes the 1st letters of all the words in the input
 4. str.split() - splits the sentence into words based on the delimiter (default = " ")
 5. .join -> this is used to join multiple strings together. if we use "\n".join() then all the elements will be joined by a new line.
+6. str.endswith() - matches the end of the string
 
 strings are immutable
 
@@ -78,6 +79,10 @@ __init__.py -> this helps python to identify a folder to treat as a module/packa
 File I/O -> r,w,a
 
 lambda -> lambda arguments: expression
+    1. You can pass any number of arguments.
+    2. There is no return keyword. The single expression is automatically evaluated and returned.
+    3. When are they used? -> We rarely assign a lambda to a variable (like square_lambda = ...) because if we wanted a named function, we would just use def.
+        -> Instead, lambdas are used as disposable, one-time functions passed as arguments to other functions, like sorted(), min(), max(), map(), or filter().
 
 csv -> .reader, .DictReader, .writer
 
@@ -229,3 +234,48 @@ functools -> modules in python that enables functional programming in python eas
 pathlib
 
 HTML Parser -> Event-Driven Parsing
+
+Dymanic Typing -  it means that variables don’t have a fixed type. Instead, the type is determined at runtime based on the value you assign.
+
+
+Topic 7: Pytest (Rigorous Testing)
+Pytest is the most popular and powerful testing framework in Python. Unlike Python's built-in unittest module, Pytest uses simple, standard Python assert statements, making tests much cleaner to write.
+
+Here are the four core Pytest concepts you must know:
+
+1. Test Discovery
+Pytest automatically searches your project directory for files starting with test_ (e.g., test_math.py) and runs any functions inside them that start with test_ (e.g., def test_addition():).
+
+2. Standard Assertions
+No need for verbose methods like self.assertEqual(a, b). You just use standard Python checks:
+
+python
+
+
+def test_addition():
+    assert 1 + 1 == 2
+3. Testing Exceptions (pytest.raises)
+If you want to test that your code correctly raises an error under certain conditions, you use pytest.raises as a context manager:
+
+python
+
+
+import pytest
+def test_division_by_zero():
+    with pytest.raises(ZeroDivisionError):
+        # If this code doesn't raise ZeroDivisionError, the test fails!
+        1 / 0
+4. Fixtures (@pytest.fixture)
+Fixtures are setup functions that run before your tests. They prepare data or objects that your tests need.
+
+python
+
+
+import pytest
+@pytest.fixture
+def sample_list():
+    # Setup data
+    return [1, 2, 3]
+# We pass the fixture name as an argument to the test function!
+def test_length(sample_list):
+    assert len(sample_list) == 3

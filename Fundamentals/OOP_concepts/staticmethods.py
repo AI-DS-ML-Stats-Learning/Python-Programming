@@ -4,7 +4,9 @@ class Student:
         self.m2 = m2
     
     @staticmethod
-    def print_details():
-        print(self.m1, self.m2)
+    def print_details(temp):
+        print("This method can print static values. " \
+        "It can also take parameters which can be passed at the time of object creation or when trying to access this method")
+        print(f"Temperature entered is {temp}")
 
-s1 = Student(12, 30)
+Student.print_details(78)
