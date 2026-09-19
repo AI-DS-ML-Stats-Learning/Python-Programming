@@ -12,4 +12,4 @@ for i in range(1, k+1):
     # lst = []
     for j in [list(x) for x in comb ]:
         # print(split_and_join(j))
-        print(''.join(j))
+        print(''(j))
