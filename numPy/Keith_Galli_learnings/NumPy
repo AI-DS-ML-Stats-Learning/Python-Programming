@@ -1,0 +1,21 @@
+List vs NumPy - 
+
+1. NumpY uses fixed types whereas list has dynamic types of values inserted into into. int32
+2. Lists -> built in int type - 
+    object values - 8 bytes
+    object type - 8 bytes
+    reference count - 8 bytes
+    size - 4 bytes
+
+Why is NumPy Faster - 
+1. Faster to read less bytes of memory - 
+2. No type checking when iterating through objects
+3. NumPy has contiguos memory blocks unlike list where there memory allocation can be scattered.
+    SIMD vector processing - single instruction multiple data
+    effective cache utilization
+
+Applications of NumPy - 
+1. Mathematics (MATLAB replacement)
+2. Plotting (Matplotlib)
+3. Backend (Pandas, Connect 4, Digital Phoptography)
+4. ML [tensor libarry similar to NumPy]
