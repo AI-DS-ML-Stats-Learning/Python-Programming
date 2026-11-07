@@ -52,3 +52,10 @@ first_page = tensor[0, :, :]
 
 # Access single deep element (Last page, 2nd row, 3rd column)
 deep_val = tensor[-1, 1, 2]
+
+# Why is np.add.reduce(arr) faster than np.sum(arr) on small arrays?
+
+When you call np.sum(arr) (or arr.sum()), NumPy actually does some setup work first (checking types, handling optional arguments, etc.) and then internally calls np.add.reduce(arr) to do the actual addition!
+
+For a large array (millions of numbers), that tiny setup overhead is invisible compared to the time spent adding numbers.
+For a very small array (like 4 or 10 numbers), the setup overhead of np.sum takes longer than the addition itself! Calling np.add.reduce(arr) directly skips the middleman.

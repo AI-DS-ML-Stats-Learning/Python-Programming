@@ -51,4 +51,17 @@ a = a+2 ->
 
 a += 2 -> Python says to do the operation on the variable instead, so no new memory block is created
 
+np.array_equal(a,b) -> compares two arrays and returns one True/False value
+
+arr.flags.writeable = False -> this makes the array immutable (read-only), like a tuple, means values in this array can't be changed
+print(arr.flags)
+        C_CONTIGUOUS : True
+        F_CONTIGUOUS : True
+        OWNDATA : True
+        WRITEABLE : False
+        ALIGNED : True
+        WRITEBACKIFCOPY : False
+
+np.hypot(x, y) -> calculates hypotenuse: squareroot of x2 + y2
+np.arctan2(y,x) -> calculates tan inverse of y/x
 
