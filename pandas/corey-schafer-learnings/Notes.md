@@ -136,3 +136,17 @@
     e. Read an existing table from DB -> sql_df = pd.read_sql('sample_table', engine, index_col = 'Respondent')
     f. Query from a table ->
         sql_df_limit_100 = pd.read_sql_query('select * from sample_table limit 100', engine, index_col = 'Respondent')
+45. unstack - takes each column (0, 1, 2...) and stacks all its rows into one long Series with a 2-level index: (col, row)
+46. idmax/idmin - returns the id/col name with the max/min value. But whenever there is a tie, it will return the 1st col from the left
+47. cumsum - cumulative sum
+48. pd.DataFrame(df['RecentDelays'].tolist(), index=df.index)
+49. pd.cut
+50. pd.MultiIndex.from_product()
+51. rolling - 
+52. orders_gr['amount'].shift(1)
+53. orders_gr['amount'].shift(-1)
+54. orders_gr.cumcount() 
+55. raw_cleaned.pivot_table(index = 'category',columns='spend_tier', values='spend', fill_value=0, aggfunc='sum', margins=True)
+56. pd.qcut
+57. .transform("sum")
+58. 

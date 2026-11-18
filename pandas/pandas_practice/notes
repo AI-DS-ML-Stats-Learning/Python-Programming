@@ -1,0 +1,44 @@
+Here is what each one is doing under the hood on your sorted `orders` DataFrame:
+
+---
+
+### 1. `orders_gr.cumcount() + 1`
+Think of `cumcount()` as **"row number inside each group, starting at 0"**.
+- Unlike `cumsum()`, it doesn't need a `dummy_col` of `1`s — it just counts rows per `customer_id` in their current order:
+  - `101` (3 rows) → `0, 1, 2`
+  - `102` (2 rows) → `0, 1`
+  - `103` (1 row) → `0`
+- Adding `+ 1` turns it into 1-based numbering (`1, 2, 3`).
+- **Why no `merge` needed?** `cumcount()` returns a `Series` that **keeps the exact original row index** (`0, 2, 4, 1, 5, 3, 6`), so `orders['order_num'] = ...` aligns row-for-row automatically.
+
+---
+
+### 2. `orders_gr['amount'].shift(1)`
+Think of `shift(n)` as **"push values down by `n` rows within each group"** (SQL `LAG(amount, 1)`).
+- Inside each `customer_id` group independently:
+  - `101`: `[200, 350, 150]` shifted down by 1 → `[NaN, 200.0, 350.0]`
+  - `102`: `[120, 180]` shifted down by 1 → `[NaN, 120.0]`
+  - `103`: `[500]` shifted down by 1 → `[NaN]`
+- Notice it **never leaks across customers** — `102`'s first row gets `NaN`, not `101`'s last order (`150`).
+- *(Bonus: `shift(-1)` shifts **up** by 1 — i.e., SQL `LEAD()`, next order amount.)*
+- Like `cumcount()`, it keeps the original index, so it assigns straight back to `orders['prev_amount']`.
+
+---
+
+### 3. Why `.reset_index(level=0, drop=True)` is needed on `rolling(...)`
+Unlike `cumcount()` and `shift()`, `groupby().rolling()` **prepends the group key (`customer_id`) onto the index**, creating a 2-level MultiIndex:
+```text
+(customer_id, original_index) -> rolling_2_avg
+(101, 0)                      -> 200.0
+(101, 2)                      -> 275.0
+(101, 4)                      -> 250.0
+(102, 1)                      -> 120.0
+...
+```
+If you try `orders['rolling_2_avg'] = rolling_avg` directly, Pandas fails because `orders` only has a 1-level index (`0, 2, 4, ...`), not `(101, 0)`.
+
+In `.reset_index(level=0, drop=True)`:
+- **`level=0`**: targets only the outermost index level (`customer_id`), leaving level 1 (the original row index `0, 2, 4, ...`) untouched.
+- **`drop=True`**: throws `customer_id` away instead of turning it into a new column (since `orders` already has `customer_id`).
+
+After that, the Series index is back to `[0, 2, 4, 1, 5, 3, 6]` — identical to `orders.index` — so `orders['rolling_2_avg'] = ...` aligns and assigns cleanly without `pd.merge` or `droplevel`. *(In fact, it's the exact same thing as the `.droplevel('customer_id')` you used, just done on the Series before assigning!)*
