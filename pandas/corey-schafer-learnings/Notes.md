@@ -149,4 +149,5 @@
 55. raw_cleaned.pivot_table(index = 'category',columns='spend_tier', values='spend', fill_value=0, aggfunc='sum', margins=True)
 56. pd.qcut
 57. .transform("sum")
-58. 
+58. .ohlc() - 
+59. 
